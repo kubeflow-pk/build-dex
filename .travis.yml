@@ -2,11 +2,10 @@ dist: dex
 
 env:
   global:
-    - REGISTRY_NAME=1049651653
-    - REGISTRY_PWD=lmg7831336
-    - REGISTRY=docker.io/1049651653
-    - IMAGE_NAME=dex:v2.9.0
-    - CODE_TAG=v2.9.x
+    - DOCKER_CLI_EXPERIMENTAL=enabled
+    - IMAGE_NAME=pkskubeflow/dex:v2.13.0
+    - CODE_TAG=v2.13.x
+
     
 arch:
 #  - amd64
@@ -20,8 +19,6 @@ before_install:
 
 script:
   - cd dex
-  - docker build -t ${REGISTRY}/${IMAGE_NAME} -f Dockerfile .
-  
-after_success:
-- docker login -u ${REGISTRY_NAME} -p ${REGISTRY_PWD} ${REGISTRY}
-- docker push ${REGISTRY}/${IMAGE_NAME}
+  - docker build -t ${IMAGE_NAME} -f Dockerfile .
+  - docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}
+  - docker push ${IMAGE_NAME}
